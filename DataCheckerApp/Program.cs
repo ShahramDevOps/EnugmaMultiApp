@@ -41,9 +41,6 @@ while (!condition)
 
 stopwatch.Start();
 
-//enigmaViewModel.PassPhrase = ["service", "form", "visual", "monitor", "mouse", "case", "doctor", "validate", "yahoo", "data", "first", "last"];
-//bool[] bools = [true, true, true, true, true, true, true, true, true, true, true, true];
-
 List<List<string>> resultLists = OperationServices.GenerateRotatedLists(enigmaViewModel.PassPhrase);
 List<List<List<string>>> groupedLists = OperationServices.DivideIntoGroups(resultLists, 4);
 
