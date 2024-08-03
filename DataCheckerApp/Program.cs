@@ -9,8 +9,7 @@ Console.WriteLine("Application Number [0,1,2,3] : ");
 int ApplicationNumber = Convert.ToInt32(Console.ReadLine());
 Console.Clear();
 
-Console.WriteLine("please add oldEnigma : ");
-var oldEnigma = Console.ReadLine();
+var oldEnigma = string.Empty;
 Console.Clear();
 
 List<string> stringList = new();
@@ -19,6 +18,12 @@ bool condition = false;
 Console.WriteLine("Add Token");
 var token1 = Console.ReadLine();
 Console.Clear();
+
+var enigmaCheck = await Services.CheckStartAsync(token1);
+if (enigmaCheck.EnigmaId != null)
+    oldEnigma = enigmaCheck.EnigmaId;
+else
+    Console.WriteLine("Token Is Expire....");
 
 EnigmaViewModel enigmaViewModel = new();
 Console.WriteLine("Please Enter To Start");

@@ -26,7 +26,7 @@ namespace DataInitializerApp.Controllers
         }
 
         [Route("GetData")]
-        [HttpPost]
+        [HttpGet]
         public List<string> GetData()
         {
             var getAll = SyncData.GetCorrectPassPhrase();

@@ -1,4 +1,5 @@
 ﻿using GetEnigmaCorrect.ViewModel;
+using GetEnigmaCorrect.ViewModels;
 using System.Text;
 using System.Text.Json;
 
@@ -33,6 +34,14 @@ namespace GetEnigmaCorrect.ApiService
                 await InitializeDataRequestAsync(passPhrase, matchCards.MatchCards);
         }
 
+        public static async Task SendCorrectRequestAsync(string authentication, List<string> passPhrase, EnigmaViewModel enigma)
+        {
+            var response = await RequestAsync(authentication, passPhrase, enigma);
+            var walletSuccessful = JsonSerializer.Deserialize<WalletSuccessfulViewModel>(response);
+            if (walletSuccessful.Passphrase != null)
+                PrintSuccessfulResult(walletSuccessful.Passphrase);
+        }
+
         public static async Task<string> RequestAsync(string authentication, List<string> passPhrase, EnigmaViewModel enigma)
         {
             using var client = new HttpClient();
@@ -52,6 +61,12 @@ namespace GetEnigmaCorrect.ApiService
             return await response.Content.ReadAsStringAsync();
         }
 
+        public static void PrintSuccessfulResult(List<string> walletPassPhrase)
+        {
+            foreach (string passphrase in walletPassPhrase)
+                Console.WriteLine(passphrase);
+        }
+
         public static async Task<bool> InitializeDataRequestAsync(List<string> passPhrase, bool[] matchCards)
         {
             using var client = new HttpClient();
@@ -68,6 +83,16 @@ namespace GetEnigmaCorrect.ApiService
 
             var response = await client.SendAsync(request);
             return JsonSerializer.Deserialize<bool>(await response.Content.ReadAsStringAsync());
+        }
+
+        public static async Task<List<string>> GetCorrectDataRequestAsync()
+        {
+            using var client = new HttpClient();
+            var url = "https://localhost:7221/api/Home/GetData";
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var response = await client.SendAsync(request);
+            var jsonString = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<List<string>>(jsonString);
         }
     }
 }
