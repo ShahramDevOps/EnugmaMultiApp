@@ -69,7 +69,6 @@ namespace DataCheckerApp.ApiService
             });
 
             request.Content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-
             var response = await client.SendAsync(request);
             return JsonSerializer.Deserialize<bool>(await response.Content.ReadAsStringAsync());
         }

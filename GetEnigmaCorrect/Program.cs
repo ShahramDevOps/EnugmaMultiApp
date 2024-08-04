@@ -11,11 +11,10 @@ var token = Console.ReadLine();
 Console.Clear();
 
 var enigmaCheck = await Services.CheckStartAsync(token);
-if (enigmaCheck.EnigmaId != oldEnigma)
-{
+if (enigmaCheck.EnigmaId != null)
+    oldEnigma = enigmaCheck.EnigmaId;
+else
     Console.WriteLine("Token Is Expire....");
-    Console.ReadLine();
-}
 
 EnigmaViewModel enigmaViewModel = new();
 
