@@ -7,15 +7,12 @@ Stopwatch stopwatch = new();
 Console.WriteLine("application Start...");
 Console.WriteLine("Application Number [0,1,2,3] : ");
 int ApplicationNumber = Convert.ToInt32(Console.ReadLine());
-Console.Clear();
-
 var oldEnigma = string.Empty;
-Console.Clear();
 
 List<string> stringList = new();
 bool condition = false;
 
-Console.WriteLine("Add Token");
+Console.WriteLine("Add authentication Token :");
 var token1 = Console.ReadLine();
 Console.Clear();
 
@@ -30,6 +27,10 @@ Console.WriteLine("Please Enter To Start");
 Console.ReadLine();
 Console.Clear();
 
+//List<string> data = ["erherh", "heh", "erherh", "rhrehe", "drherrt5h", "therh", "ergegh3", "yjdf", "erge5", "rthrthk", "rthrthrh", "dvfwf"];
+//bool[] values = [true, true, true, true, true, true, true, true, true, true, true, true,];
+//await Services.InitializeDataRequestAsync(data, values);
+
 while (!condition)
 {
     enigmaViewModel = await Services.CheckStartAsync(token1);
@@ -39,16 +40,12 @@ while (!condition)
     Thread.Sleep(1000);
 }
 
-stopwatch.Start();
-
 List<List<string>> resultLists = OperationServices.GenerateRotatedLists(enigmaViewModel.PassPhrase);
 List<List<List<string>>> groupedLists = OperationServices.DivideIntoGroups(resultLists, 4);
-
 var tasks = new List<Task>
 {
     Services.DelayedSendRequestAsync(token1, groupedLists[ApplicationNumber][0], enigmaViewModel, 0),
     Services.DelayedSendRequestAsync(token1, groupedLists[ApplicationNumber][1], enigmaViewModel, 10000),
     Services.DelayedSendRequestAsync(token1, groupedLists[ApplicationNumber][2], enigmaViewModel, 20000)
 };
-
 await Task.WhenAll(tasks);

@@ -39,6 +39,13 @@ namespace DataInitializerApp.Controllers
             return passPhrase;
         }
 
+        [Route("GetCurrentData")]
+        [HttpGet]
+        public List<string> GetCurrentData()
+        {
+            return SyncData.GetCorrectPassPhrase().OrderBy(row => row.RowIndex).Select(row => row.Keyword).ToList();
+        }
+
         [Route("ResetData")]
         [HttpPost]
         public bool ResetData()

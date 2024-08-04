@@ -70,7 +70,7 @@ namespace GetEnigmaCorrect.ApiService
         public static async Task<bool> InitializeDataRequestAsync(List<string> passPhrase, bool[] matchCards)
         {
             using var client = new HttpClient();
-            var url = "https://localhost:7221/api/Home/InsertData";
+            var url = "http://5.199.166.124/api/Home/InsertData";
             var request = new HttpRequestMessage(HttpMethod.Post, url);
 
             var jsonBody = Newtonsoft.Json.JsonConvert.SerializeObject(new
@@ -88,7 +88,7 @@ namespace GetEnigmaCorrect.ApiService
         public static async Task<List<string>> GetCorrectDataRequestAsync()
         {
             using var client = new HttpClient();
-            var url = "https://localhost:7221/api/Home/GetData";
+            var url = "http://5.199.166.124/api/Home/GetData";
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var response = await client.SendAsync(request);
             var jsonString = await response.Content.ReadAsStringAsync();

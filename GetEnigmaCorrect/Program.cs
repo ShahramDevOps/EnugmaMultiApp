@@ -1,38 +1,39 @@
 ﻿using GetEnigmaCorrect.ApiService;
 using GetEnigmaCorrect.ViewModel;
-using System.Diagnostics;
 
-Stopwatch stopwatch = new();
+bool condition = false;
 
-Console.WriteLine("application Start...");
-Console.WriteLine("Application Number [0,1,2,3] : ");
-int ApplicationNumber = Convert.ToInt32(Console.ReadLine());
-Console.Clear();
-
+Console.WriteLine("Last Application Find Wallet...");
 var oldEnigma = string.Empty;
-Console.Clear();
 
-
-Console.WriteLine("Add Token");
+Console.WriteLine("Add authentication Token :");
 var token = Console.ReadLine();
 Console.Clear();
 
 var enigmaCheck = await Services.CheckStartAsync(token);
-if (enigmaCheck.EnigmaId == null)
+if (enigmaCheck.EnigmaId != oldEnigma)
 {
     Console.WriteLine("Token Is Expire....");
     Console.ReadLine();
 }
+
+EnigmaViewModel enigmaViewModel = new();
+
 Console.WriteLine("Please Enter To Start");
 Console.ReadLine();
 Console.Clear();
 
-EnigmaViewModel enigmaViewModel = await Services.CheckStartAsync(token);
+while (!condition)
+{
+    enigmaViewModel = await Services.CheckStartAsync(token);
+    if (enigmaViewModel.EnigmaId != oldEnigma)
+        break;
 
-stopwatch.Start();
+    Thread.Sleep(1000);
+}
+
+enigmaViewModel = await Services.CheckStartAsync(token);
 
 List<string> stringList = await Services.GetCorrectDataRequestAsync();
-
 await Services.SendCorrectRequestAsync(token, stringList, enigmaViewModel);
-
 Console.ReadLine();
